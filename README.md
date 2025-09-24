@@ -121,11 +121,13 @@ Since the focus of this tutorial is using Open AI models in C# we are going to s
 4. Place a copy of this file in the Assets folder of your project.
 5. Run the project, you should now have a complete UI that looks like the above image, but does nothing.
 
-### Finding your Open AI API Key
+### Finding your OpenAI API Key
 
-You will need the API key of your personal Open AI account to continue.  
+**Important:** This project uses OpenAI's direct API service (platform.openai.com), not Azure OpenAI. You need a regular OpenAI API key, not an Azure OpenAI key.
 
-1. Go to the [Open AI developer Portal](https://platform.openai.com/)
+You will need the API key from your personal OpenAI account to continue.  
+
+1. Go to the [OpenAI developer Portal](https://platform.openai.com/)
 2. Either Login or Sign Up for a new account.
 3. Click the API Keys menu item on the left.
 4. Click Create new secret key
@@ -141,7 +143,9 @@ You will need the API key of your personal Open AI account to continue.
 
 Instead of carefully creating a prompt to generate an image we will have GPT-4 do it for us.  
 
-1. Add the nuget package *Azure.AI.OpenAI* to your project.  You must check "Include prerelease" to find this package. This works package works for both Open AI and Azure Open AI.  I recommend Azure Open AI for enterprise and commerical projects, and either one for personal or fun projects.
+1. Add the nuget package *Azure.AI.OpenAI* to your project.  You must check "Include prerelease" to find this package. 
+
+**Note:** While this package is called "Azure.AI.OpenAI", it can connect to both Azure OpenAI services and OpenAI's direct API. This project is configured to use OpenAI's direct API (platform.openai.com), so you need a regular OpenAI API key as described above, not an Azure OpenAI key.
 
 ![Add Nuget Package](images/4.png)
 
@@ -341,17 +345,19 @@ We need one more thing for Santa's solution to be complete, we need the ability 
 
 If you get an error message saying "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth", this means the OpenAI API key is not properly configured.
 
+**Important:** This project requires a regular OpenAI API key from platform.openai.com, not an Azure OpenAI key.
+
 **Solution:**
-1. Make sure you have followed the "Finding your Open AI API Key" section above
+1. Make sure you have followed the "Finding your OpenAI API Key" section above
 2. Replace the empty string in `MainWindow.xaml.cs` line 14:
    ```csharp
-   private const string OPENAI_KEY = ""; // Replace with your actual API key
+   private const string OPENAI_KEY = ""; // Replace with your actual OpenAI API key
    ```
-   With your actual API key:
+   With your actual OpenAI API key:
    ```csharp
    private const string OPENAI_KEY = "sk-your-actual-api-key-here";
    ```
-3. Your API key should start with "sk-" and be quite long (typically 50+ characters)
+3. Your OpenAI API key should start with "sk-" and be quite long (typically 50+ characters)
 4. Rebuild and run the application
 
 **Note:** Never commit your API key to source control. Consider using environment variables or configuration files for production applications.
