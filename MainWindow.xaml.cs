@@ -29,6 +29,12 @@ namespace Dalle3_CSharp_Advent
             if (selectedItem != null)
             {
                 _selectedHoliday = selectedItem.Content.ToString();
+                // Clear the generated image when holiday changes to avoid confusion
+                if (GeneratedImage != null)
+                {
+                    GeneratedImage.Source = null;
+                    Save.IsEnabled = false;
+                }
             }
         }
 
