@@ -16,7 +16,16 @@
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         <Image Grid.Row="0" Grid.RowSpan="4" Source="Assets/background.jpg" Stretch="UniformToFill"></Image>
-        <TextBlock Grid.Row="0" FontFamily="Segoe UI" FontSize="24" Margin="50,10,0,5" Foreground="DarkGreen">Advent DALL-E</TextBlock>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="50,10,0,5" Spacing="20">
+            <TextBlock FontFamily="Segoe UI" FontSize="24" Foreground="DarkGreen">Holiday DALL-E</TextBlock>
+            <ComboBox x:Name="HolidaySelector" Width="150" VerticalAlignment="Center" SelectionChanged="HolidaySelector_SelectionChanged">
+                <ComboBoxItem Content="Christmas" IsSelected="True" />
+                <ComboBoxItem Content="Valentine's Day" />
+                <ComboBoxItem Content="Easter" />
+                <ComboBoxItem Content="Halloween" />
+                <ComboBoxItem Content="Birthday" />
+            </ComboBox>
+        </StackPanel>
 
         <Border Grid.Row="1" BorderThickness="2" BorderBrush="Gainsboro" Background="#FFFFFFFF" Margin="60,10">
             <Image x:Name="GeneratedImage" Stretch="Uniform"></Image>
@@ -27,7 +36,7 @@
         <TextBox x:Name="HumanPrompt" Grid.Row="2" PlaceholderText="Enter Inspiration" AutomationProperties.Name="multi-line TextBox" BorderBrush="Gainsboro" BorderThickness="2" Margin="20,50,20,5" Width="auto" Height="auto" AcceptsReturn="True" IsSpellCheckEnabled="True"></TextBox>
         
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="30,0" Spacing="30">
-            <Button x:Name="Generate" Click="GenerateImage_Click" Background="GhostWhite" Foreground="DarkGreen" FontWeight="SemiBold">Advent of DALL-E</Button>
+            <Button x:Name="Generate" Click="GenerateImage_Click" Background="GhostWhite" Foreground="DarkGreen" FontWeight="SemiBold">Generate Holiday Image</Button>
             <Button x:Name="Save" Click="Save_Click" Background="GhostWhite" Foreground="DarkGreen" FontWeight="SemiBold" IsEnabled="False">Save Image</Button>
         </StackPanel>
 
