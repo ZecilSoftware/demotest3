@@ -1,4 +1,4 @@
-# Advent DALL-E (C# Advent 2023 Day 17)
+# Holiday DALL-E (C# Advent 2023 Day 17)
 
 >  *This article is part of C# Advent 2023. For more articles in the series by other authors, visit [csadvent.christmas](https://www.csadvent.christmas/).*
 
@@ -7,12 +7,19 @@ NOTE: This repo contains the completed project, I recommend that you **do not** 
   ---
 ![Santa Writing Code](images/santa.png)
 
-### Santa needs a little help!
+### Santa needs a little help (and so do other holidays)!
 Merry Christmas! Santa has been busy this year and needed a little help generating images for his Christmas cards. He realized that DALL-3 would be perfect, but he doesn't have time to learn how to write effective prompts for DALL-E. 
 
-Santa Thought: ***What if I had an AI create the image prompts for me?***
+But then Santa thought... ***What about other holidays? Valentine's Day, Easter, Halloween, and Birthdays could all use the same AI magic!***
 
-Santa called in Cradle, his Chief ML Engineer Elf, and asked if it was possible.  Cradle replied its not only possible but I'll have it ready for you in under an hour!
+Santa called in Cradle, his Chief ML Engineer Elf, and asked if it was possible to make a universal holiday image generator. Cradle replied it's not only possible but I'll have it ready for you in under an hour!
+
+**Holiday DALL-E now supports:**
+- Christmas 🎄
+- Valentine's Day 💕
+- Easter 🐰
+- Halloween 🎃  
+- Birthdays 🎂
 
 ### Creating the Win UI3 Project
 
@@ -43,7 +50,7 @@ Since the focus of this tutorial is using Open AI models in C# we are going to s
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         <Image Grid.Row="0" Grid.RowSpan="4" Source="Assets/background.jpg" Stretch="UniformToFill"></Image>
-        <TextBlock Grid.Row="0" FontFamily="Segoe UI" FontSize="24" Margin="50,10,0,5" Foreground="DarkGreen">Advent DALL-E</TextBlock>
+        <TextBlock Grid.Row="0" FontFamily="Segoe UI" FontSize="24" Margin="50,10,0,5" Foreground="DarkGreen">Holiday DALL-E</TextBlock>
 
         <Border Grid.Row="1" BorderThickness="2" BorderBrush="Gainsboro" Background="#FFFFFFFF" Margin="60,10">
             <Image x:Name="GeneratedImage" Stretch="Uniform"></Image>
@@ -54,7 +61,7 @@ Since the focus of this tutorial is using Open AI models in C# we are going to s
         <TextBox x:Name="HumanPrompt" Grid.Row="2" PlaceholderText="Enter Inspiration" AutomationProperties.Name="multi-line TextBox" BorderBrush="Gainsboro" BorderThickness="2" Margin="20,50,20,5" Width="auto" Height="auto" AcceptsReturn="True" IsSpellCheckEnabled="True"></TextBox>
         
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="30,0" Spacing="30">
-            <Button x:Name="Generate" Click="GenerateImage_Click" Background="GhostWhite" Foreground="DarkGreen" FontWeight="SemiBold">Advent of DALL-E</Button>
+            <Button x:Name="Generate" Click="GenerateImage_Click" Background="GhostWhite" Foreground="DarkGreen" FontWeight="SemiBold">Generate Holiday Image</Button>
             <Button x:Name="Save" Click="Save_Click" Background="GhostWhite" Foreground="DarkGreen" FontWeight="SemiBold" IsEnabled="False">Save Image</Button>
         </StackPanel>
 
@@ -104,7 +111,7 @@ Since the focus of this tutorial is using Open AI models in C# we are going to s
             Generate.IsEnabled = true;
         }
 
-        private const string SAVE_FOLDER = "Advent DALLE";
+        private const string BASE_SAVE_FOLDER = "Holiday DALLE";
 
         private static async Task<string> GetPicturesFolder()
         {
