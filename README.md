@@ -335,6 +335,27 @@ We need one more thing for Santa's solution to be complete, we need the ability 
 
 2. Run the solution.  Try different prompts and save your favorites!
 
+## Troubleshooting
+
+### "You didn't provide an API key" Error
+
+If you get an error message saying "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth", this means the OpenAI API key is not properly configured.
+
+**Solution:**
+1. Make sure you have followed the "Finding your Open AI API Key" section above
+2. Replace the empty string in `MainWindow.xaml.cs` line 14:
+   ```csharp
+   private const string OPENAI_KEY = ""; // Replace with your actual API key
+   ```
+   With your actual API key:
+   ```csharp
+   private const string OPENAI_KEY = "sk-your-actual-api-key-here";
+   ```
+3. Your API key should start with "sk-" and be quite long (typically 50+ characters)
+4. Rebuild and run the application
+
+**Note:** Never commit your API key to source control. Consider using environment variables or configuration files for production applications.
+
 ---
 
 ## Santa Returns

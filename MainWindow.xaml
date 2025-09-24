@@ -39,5 +39,14 @@
 	        IsLightDismissEnabled="True"
 	        CloseButtonContent="Got it!">
         </TeachingTip>
+
+        <TeachingTip x:Name="ApiKeyNotification"
+	        Title="API Key Required"
+	        Subtitle="Please add your OpenAI API key to the OPENAI_KEY constant in MainWindow.xaml.cs as described in the README.md file."
+	        PreferredPlacement="Auto"
+	        PlacementMargin="20"
+	        IsLightDismissEnabled="True"
+	        CloseButtonContent="Got it!">
+        </TeachingTip>
     </Grid>
 </Window>

@@ -12,7 +12,7 @@ namespace Dalle3_CSharp_Advent
     public sealed partial class MainWindow : Window
     {
         private const string OPENAI_KEY = "";
-        private const string SAVE_FOLER = "Advent DALLE";
+        private const string SAVE_FOLDER = "Advent DALLE";
         private Uri _currentImage;
         private string _currentPrompt;
 
@@ -25,8 +25,8 @@ namespace Dalle3_CSharp_Advent
         {
             WorkingState();
             var folder = await GetPicturesFolder();
-            var destination = Path.Combine(folder, SAVE_FOLER, $"{HumanPrompt.Text}.png");
-            var destination2 = Path.Combine(folder, SAVE_FOLER, $"{HumanPrompt.Text}.txt");
+            var destination = Path.Combine(folder, SAVE_FOLDER, $"{HumanPrompt.Text}.png");
+            var destination2 = Path.Combine(folder, SAVE_FOLDER, $"{HumanPrompt.Text}.txt");
 
             using (var client = new WebClient())
             {
@@ -43,25 +43,53 @@ namespace Dalle3_CSharp_Advent
             FinishedState();
         }
 
+        private static bool IsValidApiKey(string apiKey)
+        {
+            return !string.IsNullOrWhiteSpace(apiKey) && 
+                   apiKey.StartsWith("sk-") && 
+                   apiKey.Length > 20;
+        }
+
         private async void GenerateImage_Click(object sender, RoutedEventArgs e)
         {
+            // Check if API key is configured
+            if (!IsValidApiKey(OPENAI_KEY))
+            {
+                ApiKeyNotification.IsOpen = true;
+                return;
+            }
+
             GeneratedImage.Source = null;
             WorkingState();
 
-            _currentPrompt = await GeneratePrompt(HumanPrompt.Text);
+            try
+            {
+                _currentPrompt = await GeneratePrompt(HumanPrompt.Text);
 
-            ShowPrompt(_currentPrompt);
-            var image = await GenerateImage(_currentPrompt);
-            HidePrompt();
+                ShowPrompt(_currentPrompt);
+                var image = await GenerateImage(_currentPrompt);
+                HidePrompt();
 
-            GeneratedImage.Source = image;
+                GeneratedImage.Source = image;
 
-            FinishedState();
-            Save.IsEnabled = true;
+                FinishedState();
+                Save.IsEnabled = true;
+            }
+            catch (Exception ex)
+            {
+                FinishedState();
+                ApiKeyNotification.Subtitle = $"Error: {ex.Message}";
+                ApiKeyNotification.IsOpen = true;
+            }
         }
 
         private static async Task<string> GeneratePrompt(string userPrompt)
         {
+            if (!IsValidApiKey(OPENAI_KEY))
+            {
+                throw new InvalidOperationException("OpenAI API key is not configured. Please add your API key to the OPENAI_KEY constant.");
+            }
+
             OpenAIClient client = new(OPENAI_KEY);
 
             var responseCompletion = await client.GetChatCompletionsAsync(
@@ -82,6 +110,11 @@ namespace Dalle3_CSharp_Advent
 
         private async Task<BitmapImage> GenerateImage(String prompt)
         {
+            if (!IsValidApiKey(OPENAI_KEY))
+            {
+                throw new InvalidOperationException("OpenAI API key is not configured. Please add your API key to the OPENAI_KEY constant.");
+            }
+
             OpenAIClient client = new(OPENAI_KEY);
 
             var responseImages = await client.GetImageGenerationsAsync(
@@ -124,7 +157,7 @@ namespace Dalle3_CSharp_Advent
         private static async Task<string> GetPicturesFolder()
         {
             var myPictures = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Pictures);
-            Directory.CreateDirectory(Path.Combine(myPictures.SaveFolder.Path, SAVE_FOLER));
+            Directory.CreateDirectory(Path.Combine(myPictures.SaveFolder.Path, SAVE_FOLDER));
             return myPictures.SaveFolder.Path;
         }
     }
